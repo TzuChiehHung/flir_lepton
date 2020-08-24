@@ -3,6 +3,7 @@
 
 import rospy
 from flir_lepton_purethermal2.uvctypes import *
+from flir_lepton_msgs.msg import TemperatureRaw
 import numpy as np
 import time
 
@@ -110,9 +111,16 @@ class PureThermal2Node(object):
         rospy.on_shutdown(self.on_shutdown)
         self.purethermal2 = PureThermal2(self.on_thermal)
 
+        # advertise
+        self.pub_thermal = rospy.Publisher('raw', TemperatureRaw, queue_size=2)
+
+        self.purethermal2.start()
+
     def on_thermal(self, data):
-        print(time.time())
-        print(data.shape)
+        temp = TemperatureRaw()
+        temp.height, temp.width = data.shape
+        temp.data = data.ravel()
+        self.pub_thermal.publish(temp)
 
     def on_shutdown(self):
         try:
@@ -126,5 +134,4 @@ class PureThermal2Node(object):
 if __name__ == '__main__':
     rospy.init_node('purethermal2_node')
     n = PureThermal2Node()
-    n.purethermal2.start()
     rospy.spin()

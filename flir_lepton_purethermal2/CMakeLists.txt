@@ -11,7 +11,6 @@ find_package(catkin REQUIRED COMPONENTS
   flir_lepton_msgs
   roscpp
   rospy
-  sensor_msgs
   std_msgs
 )
 
