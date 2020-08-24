@@ -1,0 +1,12 @@
+<launch>
+  <arg name="config" default="$(find flir_lepton_image_processing)/params/config.yaml" />
+
+  <group ns="thermal">
+    <node pkg="flir_lepton_purethermal2" type="purethermal2_node.py" name="purethermal2_node" />
+
+    <rosparam file="$(arg config)" command="load" />
+    <node pkg="flir_lepton_image_processing" type="raw_to_image.py" name="raw_to_image" />
+
+  </group>
+
+</launch>
