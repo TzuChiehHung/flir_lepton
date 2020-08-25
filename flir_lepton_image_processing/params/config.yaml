@@ -1,3 +1,4 @@
-subscribed_topic: raw
-gray_image_topic: gray_image
+raw_topic: raw
+temperature_topic: celsius
+image_topic: image
 display_min_max: True

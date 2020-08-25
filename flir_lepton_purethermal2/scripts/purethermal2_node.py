@@ -5,7 +5,6 @@ import rospy
 from flir_lepton_purethermal2.uvctypes import *
 from flir_lepton_msgs.msg import TemperatureRaw
 import numpy as np
-import time
 
 class PureThermal2(object):
 
