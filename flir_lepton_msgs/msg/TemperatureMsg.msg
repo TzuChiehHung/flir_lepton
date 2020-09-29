@@ -1,3 +1,7 @@
+# The temperatures in each pixel after calibration
 Header header
 
-TemperatureData data
+uint32 height
+uint32 width
+string unit
+float32[] data

@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import rospy
-from flir_lepton_msgs.msg import TemperatureRaw, TemperatureData
+from flir_lepton_msgs.msg import TemperatureRaw, TemperatureMsg
 from sensor_msgs.msg import Image
 import numpy as np
 import cv2
@@ -20,7 +20,7 @@ class ThermalImageProcessor(object):
 
         self.sub_raw = rospy.Subscriber(self.raw_topic, TemperatureRaw, self.callback)
 
-        self.pub_temp = rospy.Publisher(self.temperature_topic, TemperatureData, queue_size=2)
+        self.pub_temp = rospy.Publisher(self.temperature_topic, TemperatureMsg, queue_size=2)
         self.pub_image = rospy.Publisher(self.image_topic, Image, queue_size=2)
         self.bridge = CvBridge()
 
@@ -29,7 +29,8 @@ class ThermalImageProcessor(object):
         self.raw_to_image(data)
 
     def raw_to_temperature(self, data):
-        temp = TemperatureData()
+        temp = TemperatureMsg()
+        temp.header = data.header
         temp.height = data.height
         temp.width = data.width
         temp.unit = 'celsius'
@@ -37,6 +38,7 @@ class ThermalImageProcessor(object):
         self.pub_temp.publish(temp)
 
     def raw_to_image(self, data):
+        header = data.header
         data = np.array(data.data, dtype=np.uint16).reshape(data.height, data.width)
         minVal, maxVal, minLoc, maxLoc = cv2.minMaxLoc(data)
 
@@ -47,7 +49,9 @@ class ThermalImageProcessor(object):
             self.display_temperature(img, maxVal, maxLoc, (0, 0, 255))
 
         try:
-            self.pub_image.publish(self.bridge.cv2_to_imgmsg(img, 'bgr8'))
+            img_msg = self.bridge.cv2_to_imgmsg(img, 'bgr8')
+            img_msg.header = header
+            self.pub_image.publish(img_msg)
         except CvBridgeError() as e:
             rospy.logerr(e)
 

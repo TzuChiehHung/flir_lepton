@@ -117,6 +117,7 @@ class PureThermal2Node(object):
 
     def on_thermal(self, data):
         temp = TemperatureRaw()
+        temp.header.stamp = rospy.Time.now()
         temp.height, temp.width = data.shape
         temp.data = data.ravel()
         self.pub_thermal.publish(temp)

@@ -52,7 +52,6 @@ find_package(catkin REQUIRED COMPONENTS
 add_message_files(
   FILES
   TemperatureRaw.msg
-  TemperatureData.msg
   TemperatureMsg.msg
 )
 
