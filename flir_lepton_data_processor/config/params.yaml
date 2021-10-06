@@ -1,0 +1,7 @@
+flir_lepton:
+  thermal_image_processor:
+    ros__parameters:
+      raw_topic: raw
+      image_topic: image
+      temperature_topic: c
+      display_min_max: True
