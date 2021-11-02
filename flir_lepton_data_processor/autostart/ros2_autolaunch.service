@@ -1,0 +1,13 @@
+[Unit]
+Description= ROS2 auto-launch service
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=forking
+User=pi
+ExecStart=/bin/bash /home/pi/auto_launch.bash
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
