@@ -3,6 +3,7 @@
 
 import rclpy
 from rclpy.node import Node
+from rclpy.qos import qos_profile_sensor_data
 from flir_lepton_msgs.msg import TemperatureRaw, TemperatureMsg
 from sensor_msgs.msg import Image
 
@@ -26,9 +27,9 @@ class ThermalImageProcessor(Node):
         self.get_logger().info('publish temperature topic: {}'.format(self.temperature_topic.value))
         self.get_logger().info('display_min_max: {}'.format(self.display_min_max.value))
 
-        self.sub = self.create_subscription(TemperatureRaw, self.raw_topic.value, self.callback, 10)
-        self.pub_temp = self.create_publisher(TemperatureMsg, self.temperature_topic.value, 2)
-        self.pub_image = self.create_publisher(Image, self.image_topic.value, 2)
+        self.sub = self.create_subscription(TemperatureRaw, self.raw_topic.value, self.callback, qos_profile_sensor_data)
+        self.pub_temp = self.create_publisher(TemperatureMsg, self.temperature_topic.value, qos_profile_sensor_data)
+        self.pub_image = self.create_publisher(Image, self.image_topic.value, qos_profile_sensor_data)
         self.bridge = CvBridge()
 
     def callback(self, data):

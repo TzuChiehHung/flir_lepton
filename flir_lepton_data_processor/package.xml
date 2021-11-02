@@ -7,8 +7,12 @@
   <maintainer email="hungtc@solab.me.ntu.edu.tw">hungtc</maintainer>
   <license>TODO: License declaration</license>
 
+  <build_depend>sensor_msgs</build_depend>
   <build_depend>flir_lepton_msgs</build_depend>
+  <build_depend>cv_bridge</build_depend>
+  <exec_depend>sensor_msgs</exec_depend>
   <exec_depend>flir_lepton_msgs</exec_depend>
+  <exec_depend>cv_bridge</exec_depend>
 
   <test_depend>ament_copyright</test_depend>
   <test_depend>ament_flake8</test_depend>
