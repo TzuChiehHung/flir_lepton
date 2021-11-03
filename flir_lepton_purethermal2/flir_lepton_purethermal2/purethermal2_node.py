@@ -3,7 +3,6 @@
 
 import rclpy
 from rclpy.node import Node
-from rclpy.qos import qos_profile_sensor_data
 from flir_lepton_msgs.msg import TemperatureRaw
 
 from .submodules.uvctypes import *
@@ -119,7 +118,7 @@ class PureThermal2Node(Node):
     def __init__(self):
         super().__init__('purethermal2_node')
 
-        self.publisher = self.create_publisher(TemperatureRaw, 'raw', qos_profile_sensor_data)
+        self.publisher = self.create_publisher(TemperatureRaw, 'raw', 10)
 
         self.purethermal2 = PureThermal2(self.on_thermal, logger=self.get_logger())
         self.purethermal2.start()

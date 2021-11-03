@@ -3,7 +3,6 @@
 
 import rclpy
 from rclpy.node import Node
-from rclpy.qos import qos_profile_sensor_data
 from flir_lepton_msgs.msg import TemperatureRaw
 import numpy as np
 
@@ -13,7 +12,7 @@ class SubscriberNode(Node):
 
     def __init__(self):
         super().__init__('purethermal2_subscriber')
-        self.subscriber = self.create_subscription(TemperatureRaw, 'raw', self.callback, qos_profile_sensor_data)
+        self.subscriber = self.create_subscription(TemperatureRaw, 'raw', self.callback, 10)
 
     def callback(self, data):
         temp = np.array(data.data).reshape(data.height, data.width)

@@ -4,7 +4,7 @@ Wants=network-online.target
 After=network-online.target
 
 [Service]
-Type=forking
+Type=simple
 User=pi
 ExecStart=/bin/bash /home/pi/auto_launch.bash
 Restart=on-failure
