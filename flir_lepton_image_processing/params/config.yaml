@@ -1,4 +1,5 @@
 raw_topic: raw
 temperature_topic: celsius
 image_topic: image
-display_min_max: True
+display_min_max: False
+use_colormap: True
