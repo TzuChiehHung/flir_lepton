@@ -17,6 +17,7 @@ class ThermalImageProcessor(object):
         self.image_topic = rospy.get_param('image_topic', 'image')
         self.temperature_topic = rospy.get_param('temperature_topic', 'celsius')
         self.display_min_max = rospy.get_param('display_min_max', False)
+        self.use_colormap = rospy.get_param('use_colormap', False)
 
         self.sub_raw = rospy.Subscriber(self.raw_topic, TemperatureRaw, self.callback)
 
@@ -43,6 +44,9 @@ class ThermalImageProcessor(object):
         minVal, maxVal, minLoc, maxLoc = cv2.minMaxLoc(data)
 
         img = self.raw_to_8bit(data)
+
+        if self.use_colormap:
+            img = cv2.applyColorMap(img, cv2.COLORMAP_JET)
 
         if self.display_min_max:
             self.display_temperature(img, minVal, minLoc, (255, 0, 0))
